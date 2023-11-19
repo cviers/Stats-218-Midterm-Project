@@ -1,0 +1,431 @@
+###add visualization package to make the colors better###
+```{r}
+# Install and load the wesanderson package
+if (!requireNamespace("wesanderson", quietly = TRUE)) {
+    install.packages("wesanderson")
+}
+```
+
+```{r}
+#| message: false
+#| warning: false
+library(tidyverse)
+library(openintro)
+library(infer)
+### add Wes Anderson palette for aesthetics ###
+library(wesanderson)
+ff <- wes_palette("FantasticFox1")
+dj <- wes_palette("Darjeeling2")
+```
+
+
+
+__Directions:__ In this project, you will apply various statistical procedures covered in our course. Ensure to load the necessary R packages, including 'openintro' and 'tidyverse', render the `library()` function given above.
+
+This code chunk below indicates how to load your data. If you use an OpenIntro data set, simply use `data()` function to load your data. If your data set is coming from any website as a .csv file, use `read_csv()` function to load it.
+
+
+```{r}
+# data(datasetname) OR
+# midtermdata <- read_csv("data-set-name.csv")
+
+data(nyc_marathon)
+data(smoking)
+data(mammals)
+```
+
+
+# Part 1: Getting to Know Your Data Set
+
+__Question 1: Use the `glimpse()` function to introduce your data set. Write a short paragraph explaining key aspects.__
+
+```{r}
+
+glimpse(nyc_marathon)
+glimpse(smoking)
+glimpse(mammals)
+```
+
+The New York City Marathon dataset includes marathon times of winners in the New York City Marathon from 1970 to 2020. 
+
+
+__Question 2: Determine the number of variables and cases in the data set.__
+
+```{r}
+summary(nyc_marathon)
+summary(smoking)
+summary(mammals)
+```
+
+The New York City Marathon dataset includes 102 observations with 7 variables.
+
+The mammals dataset contains 62 observations with 11 variables.
+
+__Question 3: Identify the types of variables in the data set (nominal, ordinal, discrete, and continuous).__
+
+The New York City Marathon dataset has three nominal variables in it being the `names` of the runners, their competition `division`, and their `country` of origin. The discrete variables being the `time` the runners completed the marathon in. There are continuous variables being the `year` which the runners participated in the marathon. 
+
+The mammals dataset has a single nominal variable being the `species` of mammal and the rest are discrete variables, which include `x` and `y` and `z`.
+
+
+
+__Question 4: Choose a numeric variable and visualize its distribution. Describe the graph.__
+
+```{r}
+
+ggplot(data = mammals,
+       aes(x = gestation)) +
+  geom_histogram(binwidth = 30, 
+                 color = dj[5], 
+                 fill = dj[3])+  
+labs(x = "Gestation Period (days)", 
+       y = "Frequency")
+```
+
+### The distribution is skewed to the right based on visual interpretation. Tests for skewness would include: xyz ###
+
+
+__Question 5: Choose a categorical variable and create a visualization. Describe the graph.__
+```{r}
+# Define the order of income levels
+# Adjust these levels based on the actual data 'gross_income' column
+income_levels <- c("Under 2,600", "2,600 to 5,200", "5,200 to 10,400", "10,400 to 15,600", "15,600 to 20,800", "20,800 to 26,000", "26,000 to 31,200","31,200 to 36,400", "36,400 to 41,600", "Over 41,600")
+
+# Reclassify 'gross_income' as an ordered factor
+smoking$income_order <- factor(smoking$gross_income,levels = income_levels, ordered = TRUE)
+
+ggplot(data = smoking,
+       aes(x=income_order, y=age)) +
+  geom_boxplot(color = dj[5], 
+                 fill = dj[3])+
+  labs(x = "Annual Income Level (GBP)", 
+       y = "Age Distribution (years)")
+
+```
+
+
+   
+
+Type your answer here
+
+
+__Question 6: Use the geom_point() function to plot a graph showing the linear relationship between two numeric variables, colored by a categorical variable.__
+
+
+```{r}
+### first attempt was to use two continuous variables from mammals data, but coloring by a categorical value was difficult as each species  is unique ###
+ggplot(data = na.omit(mammals),
+       aes(x = body_wt,
+           y = gestation,
+       color= species)) +
+  geom_point() +
+  scale_x_log10() + #transform x axis
+  labs(x = "Body Weight (kg) (log10 transformed)", 
+       y = "Gestation (days)")+
+  theme(legend.position = "none")
+
+```
+```{r}
+### second attempt was to use  ###
+ggplot(data = na.omit(smoking),
+       aes(x = age,
+           y = amt_weekends,
+       color= marital_status)) +
+  geom_point() +
+  labs(x = "Age of Smoker (years)", 
+       y = "Number of Weekend Cigarettes")
+  
+```
+The first plot showed the difficulty of having unique categorical values for each row. In this case `species` had a unique value for each row and could not render the legend.
+
+In the second plot, using the `smoking` data, the relationship between `age` of smoker and the number of cigarettes smoked on the weekend `amt_weekend` is shown as a function of `marital_status`. In this case, there are several interesting relationships. Perhaps not surprisingly smokers that are widowed tend to be older, and single smokers tend to be younger. There appears to be no relationship, however, between age and number of cigarettes on the weekend, or with marital status. A potential postive correlation for single smokers, based on the plot, could be present indicating that older, single smokers smoke more cigarettes on the weekend, but that would need to be tested separately by subsetting those data and running a correlation test.
+
+
+# Part 2: Statistical Inference
+
+
+In this section, you'll perform inferential statistics tests using your data set.
+
+
+## One Sample $t$-test
+
+
+__In this section, you are expected to write a case study based on your data set. In other words, choose a numeric variable and conduct a One Sample $t$-test. Show your work.__
+
+Type your case here.
+
+__Question 7.1: What is the research question of this study?__
+
+
+Type your answer here.
+
+
+__Question 7.2: What type of variable do we have in this study?__
+
+
+Type your answer here.
+
+
+__Question 7.3: List the assumptions required for this test and check the assumption of normality for this study. Interpret the assumptions overall.__
+
+- __Random Sampling:__ Explain here.
+
+- __Independence of Observation:__ Explain here.
+
+- __Normal Distribution:__ Explain here.
+
+
+```{r}
+# Type your codes here to check normality.
+
+```
+
+Interpret your outputs here.
+
+
+
+__Question 7.4. Use a one sample $t$-test to investigate your research hypothesis. Answer the questions given below. Show your work.__
+
+
+__Question 7.4.1 Write out the null and alternative hypotheses in words, in the context of this study.__
+
+Type your answer here.
+
+
+__Question 7.4.2. Determine the \($\alpha$) level.__
+
+Type your answer here.
+
+
+__Question 7.4.3. Calculate the t-statistic and explain what you see in the output.__
+
+```{r}
+
+# Type your codes here
+
+```
+
+Type your answer here.
+
+
+__Question 7.4.4. Draw a conclusion and write a conclusion statement.__
+
+
+Type your answer here.
+
+
+
+## Independent Samples _t_ test
+
+__In this section, you are expected to write a case study based on your data set. Choose a numeric variable and a categorical variable (with 2 CATEGORIES) conduct Independent Samples $t$-test. Show your work.__
+
+
+__Question 8.1. What is the research question of this study?__
+
+
+Type your answer here.
+
+
+__Question 8.2. What type of variable do we have in this study?__
+
+
+Type your answer here.
+
+
+__Question 8.3. List the assumptions required for this test and check the assumption of normality for this study. Interpret the assumptions overall.__
+
+_Random Sampling:_ Explain here.
+
+_Independence of Observation:_ Explain here.
+
+_Normal Distribution:_ Explain here.
+
+
+```{r}
+# Type your codes here to check normality
+```
+
+
+
+Interpret the assumptions and type your reasoning.
+
+
+__Question 8.4. Use an independent samples $t$-test to investigate your research hypothesis. Answer the questions given below. Show your work.____
+
+
+__Question 8.4.1 Write out the null and the alternative hypothesis in words, in the context of this study:__
+
+Type your answer here.
+
+
+__Question 8.4.2. Determine the \($\alpha$) level.__
+
+Type your answer here.
+
+
+__Question 8.4.3. Calculate t statistic and explain what you see in the output.__
+
+```{r}
+
+# Type your codes here
+
+```
+
+
+Type your answer here.
+
+
+__Question 8.4.4. Explain what each function does in this question.__
+
+`t_test`: Type your answer here.
+
+`formula`:Type your answer here.
+
+`order`: Type your answer here.
+
+`alternative`: Type your answer here.
+
+`conf.level`: Type your answer here.
+
+`var.equal`: Type your answer here.
+
+
+__Question 8.4.5. Draw a conclusion and write a conclusion statement__
+
+
+Type your answer here.
+
+
+## One Way ANOVA
+
+Write a case study based on your data set. Choose a numeric variable and a categorical variable (more than 2 categories) conduct One Way ANOVA. Show your work.
+
+
+__Question 9.1. What is the research question of this study?__
+
+
+Type your answer here.
+
+
+__Question 9.2. What type of variable do we have in this study?__
+
+
+Type your answer here.
+
+
+__Question 9.3. List the assumptions required for this test and check the assumption of normality for this study. Interpret the assumptions overall.__
+
+List the assumptions here and explain them.
+
+
+```{r}
+# Type your codes here to check normality
+```
+
+
+Interpret the assumptions and type your reasoning.
+
+
+
+__Question 9.4. Conduct One Way ANOVA to investigate your research hypothesis. Answer the questions given below. Show your work.____
+
+
+__Question 9.4.1 Write out the null and alternative hypotheses in words, in the context of this study.__
+
+Type your answer here.
+
+
+__Question 9.4.2. Determine the \($\alpha$) level.__
+
+Type your answer here.
+
+
+__Question 9.4.3. Calculate F statistic and explain what you see in the output.__
+
+```{r}
+
+# Type your codes here
+
+```
+
+
+Type your answer here.
+
+
+__Question 9.4.4. Explain what each function does in this question.__
+
+
+
+
+__Question 9.4.5. Draw a conclusion and write a conclusion statement__
+
+
+Type your answer here.
+
+
+## Chi Square Test
+
+Write a case study based on your data set. Choose a 2 categorical variable conduct Chi-square test. Show your work.
+
+
+__Question 10.1. What is the research question of this study?__
+
+
+Type your answer here.
+
+
+__Question 10.2. What type of variable do we have in this study?__
+
+
+Type your answer here.
+
+
+__Question 10.3. Please list the assumptions required for this test. Interpret the assumptions overall.__
+
+
+List the assumptions here and explain them. Interpret the assumptions and type your reasoning.
+
+
+
+__Question 10.4. Conduct a Chi-square test to investigate your research question__
+
+
+__Question 10.4.1 Write out the null & the alternative hypothesis in words, in the context of this study:__
+
+Type your answer here.
+
+
+__Question 10.4.2. Determine the \($\alpha$) level.__
+
+Type your answer here.
+
+
+__Question 10.4.3. Calculate Chi-square statistic and explain what you see in the output.__
+
+```{r}
+
+# Type your codes here
+
+```
+
+
+Type your answer here.
+
+
+__Question 10.4.4. Explain what each function does in this question.__
+
+
+Type your answer here.
+
+
+
+__Question 10.4.5. Draw a conclusion and write a conclusion statement__
+
+
+Type your answer here.
+
+
+
+
+
+
