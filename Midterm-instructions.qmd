@@ -1,0 +1,389 @@
+```{r}
+#| message: false
+#| warning: false
+library(tidyverse)
+library(openintro)
+library(infer)
+```
+
+
+
+__Directions:__ In this project, you will apply various statistical procedures covered in our course. Ensure to load the necessary R packages, including 'openintro' and 'tidyverse', render the `library()` function given above.
+
+This code chunk below indicates how to load your data. If you use an OpenIntro data set, simply use `data()` function to load your data. If your data set is coming from any website as a .csv file, use `read_csv()` function to load it.
+
+
+```{r}
+# data(datasetname) OR
+# midtermdata <- read_csv("data-set-name.csv")
+data(nyc_marathon)
+data(mammals)
+```
+
+
+# Part 1: Getting to Know Your Data Set
+
+__Question 1: Use the `glimpse()` function to introduce your data set. Write a short paragraph explaining key aspects.__
+
+```{r}
+
+glimpse(nyc_marathon)
+glimpse(mammals)
+```
+
+The New York City Marathon dataset includes marathon times of winners in the New York City Marathon from 1970 to 2020. 
+
+
+__Question 2: Determine the number of variables and cases in the data set.__
+
+```{r}
+summary(nyc_marathon)
+summary(mammals)
+```
+
+The New York City Marathon dataset includes 102 observations with 7 variables.
+The mammals dataset contains 62 observations with 11 variables.
+
+__Question 3: Identify the types of variables in the data set (nominal, ordinal, discrete, and continuous).__
+
+The New York City Marathon dataset has three nominal variables in it being the runner's names, their division, and their country. There are discrete variables being the time the runners completed the marathon in. There are continuous variables being the year which the runners participated in the marathon. 
+The mammals dataset has 1 nominal variable being the species of mammal and the rest are discrete variables.
+
+
+
+__Question 4: Choose a numeric variable and visualize its distribution. Describe the graph.__
+
+```{r}
+
+ggplot(data = mammals,
+       aes(x = gestation)) +
+  geom_histogram(binwidth = 10, 
+                 color = "white", 
+                 fill = "maroon")
+```
+
+```
+
+The distribution is skewed to the right.
+
+
+__Question 5: Choose a categorical variable and create a visualization. Describe the graph.__
+```{r}
+
+ggplot(data = mammals,
+       aes(y = species)) +
+  geom_histogram(binwidth = 10, 
+                 color = "white", 
+                 fill = "maroon")
+```
+
+
+   
+
+Type your answer here.
+
+
+__Question 6: Use the geom_point() function to plot a graph showing the linear relationship between two numeric variables, colored by a categorical variable.__
+
+
+```{r}
+
+ggplot(data = nyc_marathon,
+       aes(x = time_hrs,
+           y = time,
+           color = division)) +
+  geom_point()
+
+```
+
+Type your answer here.
+
+
+# Part 2: Statistical Inference
+
+
+In this section, you'll perform inferential statistics tests using your data set.
+
+
+## One Sample $t$-test
+
+
+__In this section, you are expected to write a case study based on your data set. In other words, choose a numeric variable and conduct a One Sample $t$-test. Show your work.__
+
+Type your case here.
+
+__Question 7.1: What is the research question of this study?__
+
+
+Type your answer here.
+
+
+__Question 7.2: What type of variable do we have in this study?__
+
+
+Type your answer here.
+
+
+__Question 7.3: List the assumptions required for this test and check the assumption of normality for this study. Interpret the assumptions overall.__
+
+- __Random Sampling:__ Explain here.
+
+- __Independence of Observation:__ Explain here.
+
+- __Normal Distribution:__ Explain here.
+
+
+```{r}
+# Type your codes here to check normality.
+
+```
+
+Interpret your outputs here.
+
+
+
+__Question 7.4. Use a one sample $t$-test to investigate your research hypothesis. Answer the questions given below. Show your work.__
+
+
+__Question 7.4.1 Write out the null and alternative hypotheses in words, in the context of this study.__
+
+Type your answer here.
+
+
+__Question 7.4.2. Determine the \($\alpha$) level.__
+
+Type your answer here.
+
+
+__Question 7.4.3. Calculate the t-statistic and explain what you see in the output.__
+
+```{r}
+
+# Type your codes here
+
+```
+
+Type your answer here.
+
+
+__Question 7.4.4. Draw a conclusion and write a conclusion statement.__
+
+
+Type your answer here.
+
+
+
+## Independent Samples _t_ test
+
+__In this section, you are expected to write a case study based on your data set. Choose a numeric variable and a categorical variable (with 2 CATEGORIES) conduct Independent Samples $t$-test. Show your work.__
+
+
+__Question 8.1. What is the research question of this study?__
+
+
+Type your answer here.
+
+
+__Question 8.2. What type of variable do we have in this study?__
+
+
+Type your answer here.
+
+
+__Question 8.3. List the assumptions required for this test and check the assumption of normality for this study. Interpret the assumptions overall.__
+
+_Random Sampling:_ Explain here.
+
+_Independence of Observation:_ Explain here.
+
+_Normal Distribution:_ Explain here.
+
+
+```{r}
+# Type your codes here to check normality
+```
+
+
+
+Interpret the assumptions and type your reasoning.
+
+
+__Question 8.4. Use an independent samples $t$-test to investigate your research hypothesis. Answer the questions given below. Show your work.____
+
+
+__Question 8.4.1 Write out the null and the alternative hypothesis in words, in the context of this study:__
+
+Type your answer here.
+
+
+__Question 8.4.2. Determine the \($\alpha$) level.__
+
+Type your answer here.
+
+
+__Question 8.4.3. Calculate t statistic and explain what you see in the output.__
+
+```{r}
+
+# Type your codes here
+
+```
+
+
+Type your answer here.
+
+
+__Question 8.4.4. Explain what each function does in this question.__
+
+`t_test`: Type your answer here.
+
+`formula`:Type your answer here.
+
+`order`: Type your answer here.
+
+`alternative`: Type your answer here.
+
+`conf.level`: Type your answer here.
+
+`var.equal`: Type your answer here.
+
+
+__Question 8.4.5. Draw a conclusion and write a conclusion statement__
+
+
+Type your answer here.
+
+
+## One Way ANOVA
+
+Write a case study based on your data set. Choose a numeric variable and a categorical variable (more than 2 categories) conduct One Way ANOVA. Show your work.
+
+
+__Question 9.1. What is the research question of this study?__
+
+
+Type your answer here.
+
+
+__Question 9.2. What type of variable do we have in this study?__
+
+
+Type your answer here.
+
+
+__Question 9.3. List the assumptions required for this test and check the assumption of normality for this study. Interpret the assumptions overall.__
+
+List the assumptions here and explain them.
+
+
+```{r}
+# Type your codes here to check normality
+```
+
+
+Interpret the assumptions and type your reasoning.
+
+
+
+__Question 9.4. Conduct One Way ANOVA to investigate your research hypothesis. Answer the questions given below. Show your work.____
+
+
+__Question 9.4.1 Write out the null and alternative hypotheses in words, in the context of this study.__
+
+Type your answer here.
+
+
+__Question 9.4.2. Determine the \($\alpha$) level.__
+
+Type your answer here.
+
+
+__Question 9.4.3. Calculate F statistic and explain what you see in the output.__
+
+```{r}
+
+# Type your codes here
+
+```
+
+
+Type your answer here.
+
+
+__Question 9.4.4. Explain what each function does in this question.__
+
+
+
+
+__Question 9.4.5. Draw a conclusion and write a conclusion statement__
+
+
+Type your answer here.
+
+
+## Chi Square Test
+
+Write a case study based on your data set. Choose a 2 categorical variable conduct Chi-square test. Show your work.
+
+
+__Question 10.1. What is the research question of this study?__
+
+
+Type your answer here.
+
+
+__Question 10.2. What type of variable do we have in this study?__
+
+
+Type your answer here.
+
+
+__Question 10.3. Please list the assumptions required for this test. Interpret the assumptions overall.__
+
+
+List the assumptions here and explain them. Interpret the assumptions and type your reasoning.
+
+
+
+__Question 10.4. Conduct a Chi-square test to investigate your research question__
+
+
+__Question 10.4.1 Write out the null & the alternative hypothesis in words, in the context of this study:__
+
+Type your answer here.
+
+
+__Question 10.4.2. Determine the \($\alpha$) level.__
+
+Type your answer here.
+
+
+__Question 10.4.3. Calculate Chi-square statistic and explain what you see in the output.__
+
+```{r}
+
+# Type your codes here
+
+```
+
+
+Type your answer here.
+
+
+__Question 10.4.4. Explain what each function does in this question.__
+
+
+Type your answer here.
+
+
+
+__Question 10.4.5. Draw a conclusion and write a conclusion statement__
+
+
+Type your answer here.
+
+
+
+
+
+
